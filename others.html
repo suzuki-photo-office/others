@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出張撮影・その他の撮影ご予約</title>
+    <!-- LINE LIFF SDK -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,7 +54,7 @@
         .time-label input { width: 18px; height: 18px; margin-right: 8px; accent-color: #a89f91; }
 
         .btn-area { margin-top: 24px; padding: 0 16px; }
-        button { width: 100%; padding: 16px; background-color: #a89f91; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(168, 159, 145, 0.1); transition: all 0.2s; }
+        button { width: 100%; padding: 16px; background-color: #a89f91; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: all 0.2s; }
         button:disabled { background-color: #d9d9d9; color: #8c8c8c; cursor: not-allowed; box-shadow: none; }
         button:active { background-color: #8c8376; transform: scale(0.99); }
     </style>
@@ -67,6 +68,7 @@
         </div>
         
         <div class="form-content">
+            <!-- 個人情報 -->
             <div class="form-group" id="group_name">
                 <label for="name">お名前<span class="required-badge">必須</span></label>
                 <input type="text" id="name" placeholder="例：鈴木 花子">
@@ -79,6 +81,7 @@
                 <div class="error-message">お電話番号を入力してください。</div>
             </div>
 
+            <!-- ご住所カード -->
             <div class="form-group" id="group_address">
                 <label>ご住所<span class="required-badge">必須</span></label>
                 <span class="sub-label" style="margin-top: 0;">郵便番号</span>
@@ -88,6 +91,7 @@
                 <div class="error-message">住所を入力してください。</div>
             </div>
 
+            <!-- 撮影希望日① -->
             <div class="form-group" id="group_date1">
                 <label for="date1">撮影希望日①<span class="required-badge">必須</span></label>
                 <input type="date" id="date1">
@@ -99,6 +103,7 @@
                 <div class="error-message">撮影希望日①の日付と時間帯の両方を選択してください。</div>
             </div>
 
+            <!-- 撮影希望日② -->
             <div class="form-group" id="group_date2">
                 <label for="date2">撮影希望日②<span class="required-badge">必須</span></label>
                 <input type="date" id="date2">
@@ -110,6 +115,7 @@
                 <div class="error-message">撮影希望日②の日付と時間帯の両方を選択してください。</div>
             </div>
 
+            <!-- 撮影希望日③ -->
             <div class="form-group">
                 <label for="date3">撮影希望日③<span class="optional-badge">任意</span></label>
                 <input type="date" id="date3">
@@ -120,6 +126,7 @@
                 </div>
             </div>
 
+            <!-- 希望プラン -->
             <div class="form-group" id="group_plan">
                 <label class="required">希望プラン<span class="required-badge">必須</span></label>
                 <div class="choice-group">
@@ -127,18 +134,21 @@
                     <label class="choice-label"><input type="radio" name="plan" value="日々の暮らしプラン ¥40,700" onclick="togglePlanOther(false)"> 日々の暮らしプラン ¥40,700</label>
                     <label class="choice-label"><input type="radio" name="plan" id="planOther" value="その他" onclick="togglePlanOther(true)"> その他（内容を以下にご記入ください）</label>
                 </div>
+                <!-- その他用入力エリア -->
                 <div class="plan-other-text-area" id="planOtherWrap">
                     <input type="text" id="planOtherText" placeholder="例：プロフィール写真撮影、法人撮影希望など">
                 </div>
                 <div class="error-message">希望プランを選択してください。</div>
             </div>
 
+            <!-- 撮影内容 -->
             <div class="form-group" id="group_content">
                 <label for="content">撮影内容<span class="required-badge">必須</span></label>
                 <textarea id="content" placeholder="例：ご自宅での新築記念撮影、近くの公園での家族ロケーション撮影、など詳細をご記入ください。"></textarea>
                 <div class="error-message">撮影内容をご記入ください。</div>
             </div>
 
+            <!-- ご質問・ご相談など -->
             <div class="form-group">
                 <label for="questions">ご質問、ご相談、ご希望のロケーション場所など<span class="optional-badge">任意</span></label>
                 <textarea id="questions" placeholder="例：○○公園での撮影を希望していますが、撮影許可が必要か相談したいです。"></textarea>
@@ -151,7 +161,6 @@
     </div>
 
     <script>
-        // 新しい専用のLIFF IDを設定しました
         const MY_LIFF_ID = "2006407169-aH64ezFf"; 
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -239,6 +248,7 @@
             const dateTimeText2 = `${date2} (${time2})`;
             const dateTimeText3 = date3 ? `${date3} (${time3})` : 'なし';
 
+            // 末尾に「確定までしばらくお待ちください。」の一文を追加
             const messageText = `【予約申込】出張・その他
 ■お名前：${name}
 ■お電話番号：${phone}
@@ -251,7 +261,9 @@
 ■撮影内容：
 ${content}
 ■ご質問、ご相談など：
-${questions}`;
+${questions}
+
+上記の内容で送信しました。確定までしばらくお待ちください。`;
 
             liff.sendMessages([{ type: 'text', text: messageText }]).then(() => { liff.closeWindow(); }).catch((err) => { alert('送信エラーが発生しました。'); });
         }
