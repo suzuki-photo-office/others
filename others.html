@@ -50,4 +50,211 @@
         /* 希望日カード内の時間帯選択用スタイル */
         .time-selector-group { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #eee; }
         .time-label { display: flex; align-items: center; font-size: 14px; font-weight: normal; cursor: pointer; color: #555; }
-        .time-label input { width: 18px; height: 18px; margin-right: 8px; accent-color: #a89f
+        .time-label input { width: 18px; height: 18px; margin-right: 8px; accent-color: #a89f91; }
+
+        .btn-area { margin-top: 24px; padding: 0 16px; }
+        button { width: 100%; padding: 16px; background-color: #a89f91; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(168, 159, 145, 0.1); transition: all 0.2s; }
+        button:disabled { background-color: #d9d9d9; color: #8c8c8c; cursor: not-allowed; box-shadow: none; }
+        button:active { background-color: #8c8376; transform: scale(0.99); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-area">
+            <h2>出張撮影・その他の撮影予約</h2>
+            <p class="subtitle">必要事項をご入力の上、送信してください。</p>
+        </div>
+        
+        <div class="form-content">
+            <div class="form-group" id="group_name">
+                <label for="name">お名前<span class="required-badge">必須</span></label>
+                <input type="text" id="name" placeholder="例：鈴木 花子">
+                <div class="error-message">お名前を入力してください。</div>
+            </div>
+
+            <div class="form-group" id="group_phone">
+                <label for="phone">お電話番号<span class="required-badge">必須</span></label>
+                <input type="tel" id="phone" placeholder="例：09012345678">
+                <div class="error-message">お電話番号を入力してください。</div>
+            </div>
+
+            <div class="form-group" id="group_address">
+                <label>ご住所<span class="required-badge">必須</span></label>
+                <span class="sub-label" style="margin-top: 0;">郵便番号</span>
+                <input type="number" id="zipcode" placeholder="例：1234567" style="margin-bottom: 12px;" inputmode="numeric">
+                <span class="sub-label">住所</span>
+                <input type="text" id="address" placeholder="例：大阪府高槻市○○1-2-3">
+                <div class="error-message">住所を入力してください。</div>
+            </div>
+
+            <div class="form-group" id="group_date1">
+                <label for="date1">撮影希望日①<span class="required-badge">必須</span></label>
+                <input type="date" id="date1">
+                <div class="time-selector-group">
+                    <label class="time-label"><input type="radio" name="time1" value="午前枠10:30"> 午前枠10:30</label>
+                    <label class="time-label"><input type="radio" name="time1" value="午後枠13:30"> 午後枠13:30</label>
+                    <label class="time-label"><input type="radio" name="time1" value="相談したい"> 相談したい</label>
+                </div>
+                <div class="error-message">撮影希望日①の日付と時間帯の両方を選択してください。</div>
+            </div>
+
+            <div class="form-group" id="group_date2">
+                <label for="date2">撮影希望日②<span class="required-badge">必須</span></label>
+                <input type="date" id="date2">
+                <div class="time-selector-group">
+                    <label class="time-label"><input type="radio" name="time2" value="午前枠10:30"> 午前枠10:30</label>
+                    <label class="time-label"><input type="radio" name="time2" value="午後枠13:30"> 午後枠13:30</label>
+                    <label class="time-label"><input type="radio" name="time2" value="相談したい"> 相談したい</label>
+                </div>
+                <div class="error-message">撮影希望日②の日付と時間帯の両方を選択してください。</div>
+            </div>
+
+            <div class="form-group">
+                <label for="date3">撮影希望日③<span class="optional-badge">任意</span></label>
+                <input type="date" id="date3">
+                <div class="time-selector-group">
+                    <label class="time-label"><input type="radio" name="time3" value="午前枠10:30"> 午前枠10:30</label>
+                    <label class="time-label"><input type="radio" name="time3" value="午後枠13:30"> 午後枠13:30</label>
+                    <label class="time-label"><input type="radio" name="time3" value="相談したい"> 相談したい</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="group_plan">
+                <label class="required">希望プラン<span class="required-badge">必須</span></label>
+                <div class="choice-group">
+                    <label class="choice-label"><input type="radio" name="plan" value="ロケーション撮影プラン ¥44,000" onclick="togglePlanOther(false)"> ロケーション撮影プラン ¥44,000</label>
+                    <label class="choice-label"><input type="radio" name="plan" value="日々の暮らしプラン ¥40,700" onclick="togglePlanOther(false)"> 日々の暮らしプラン ¥40,700</label>
+                    <label class="choice-label"><input type="radio" name="plan" id="planOther" value="その他" onclick="togglePlanOther(true)"> その他（内容を以下にご記入ください）</label>
+                </div>
+                <div class="plan-other-text-area" id="planOtherWrap">
+                    <input type="text" id="planOtherText" placeholder="例：プロフィール写真撮影、法人撮影希望など">
+                </div>
+                <div class="error-message">希望プランを選択してください。</div>
+            </div>
+
+            <div class="form-group" id="group_content">
+                <label for="content">撮影内容<span class="required-badge">必須</span></label>
+                <textarea id="content" placeholder="例：ご自宅での新築記念撮影、近くの公園での家族ロケーション撮影、など詳細をご記入ください。"></textarea>
+                <div class="error-message">撮影内容をご記入ください。</div>
+            </div>
+
+            <div class="form-group">
+                <label for="questions">ご質問、ご相談、ご希望のロケーション場所など<span class="optional-badge">任意</span></label>
+                <textarea id="questions" placeholder="例：○○公園での撮影を希望していますが、撮影許可が必要か相談したいです。"></textarea>
+            </div>
+        </div>
+
+        <div class="btn-area">
+            <button id="submitBtn" onclick="submitForm()" disabled>読み込み中...</button>
+        </div>
+    </div>
+
+    <script>
+        // 新しい専用のLIFF IDを設定しました
+        const MY_LIFF_ID = "2006407169-aH64ezFf"; 
+
+        document.addEventListener("DOMContentLoaded", function() {
+            try {
+                liff.init({ liffId: MY_LIFF_ID })
+                    .then(() => {
+                        if (!liff.isLoggedIn()) {
+                            liff.login();
+                        } else {
+                            const btn = document.getElementById('submitBtn');
+                            btn.disabled = false;
+                            btn.innerText = '送信する';
+                        }
+                    })
+                    .catch((err) => { alert('LINE通信エラー: ' + err.message); });
+            } catch (e) { alert('プログラム実行エラー: ' + e.message); }
+        });
+
+        function togglePlanOther(show) {
+            const wrap = document.getElementById('planOtherWrap');
+            wrap.style.display = show ? 'block' : 'none';
+            if (show) {
+                document.getElementById('planOtherText').focus();
+            }
+        }
+
+        function submitForm() {
+            const errorGroups = document.querySelectorAll('.form-group');
+            errorGroups.forEach(g => g.classList.remove('has-error'));
+            let hasError = false;
+
+            const nameInput = document.getElementById('name').value.trim();
+            const name = nameInput ? nameInput + ' 様' : '';
+            if (!nameInput) { document.getElementById('group_name').classList.add('has-error'); hasError = true; }
+            
+            const phone = document.getElementById('phone').value.trim();
+            if (!phone) { document.getElementById('group_phone').classList.add('has-error'); hasError = true; }
+
+            const zipcode = document.getElementById('zipcode').value.trim() || '未記入';
+            const address = document.getElementById('address').value.trim();
+            if (!address) { document.getElementById('group_address').classList.add('has-error'); hasError = true; }
+            
+            const planRadio = document.querySelector('input[name="plan"]:checked');
+            let planText = '';
+            if (planRadio) {
+                if (planRadio.value === 'その他') {
+                    const otherText = document.getElementById('planOtherText').value.trim();
+                    planText = otherText ? `その他（${otherText}）` : 'other';
+                } else {
+                    planText = planRadio.value;
+                }
+            }
+            if (!planText || planText === 'other') { 
+                document.getElementById('group_plan').classList.add('has-error'); 
+                hasError = true; 
+            }
+
+            const content = document.getElementById('content').value.trim();
+            if (!content) { document.getElementById('group_content').classList.add('has-error'); hasError = true; }
+
+            const date1 = document.getElementById('date1').value;
+            const time1Radio = document.querySelector('input[name="time1"]:checked');
+            const time1 = time1Radio ? time1Radio.value : '';
+            if (!date1 || !time1) { document.getElementById('group_date1').classList.add('has-error'); hasError = true; }
+
+            const date2 = document.getElementById('date2').value;
+            const time2Radio = document.querySelector('input[name="time2"]:checked');
+            const time2 = time2Radio ? time2Radio.value : '';
+            if (!date2 || !time2) { document.getElementById('group_date2').classList.add('has-error'); hasError = true; }
+
+            const date3 = document.getElementById('date3').value;
+            const time3Radio = document.querySelector('input[name="time3"]:checked');
+            const time3 = time3Radio ? time3Radio.value : '未選択';
+
+            const questions = document.getElementById('questions').value.trim() || 'なし';
+
+            if (hasError) {
+                alert('必須項目(*)に入力漏れがあります。赤く表示された箇所を確認してください。');
+                const firstError = document.querySelector('.has-error');
+                if (firstError) { firstError.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                return;
+            }
+
+            const dateTimeText1 = `${date1} (${time1})`;
+            const dateTimeText2 = `${date2} (${time2})`;
+            const dateTimeText3 = date3 ? `${date3} (${time3})` : 'なし';
+
+            const messageText = `【予約申込】出張・その他
+■お名前：${name}
+■お電話番号：${phone}
+■郵便番号：${zipcode}
+■ご住所：${address}
+■撮影希望日①：${dateTimeText1}
+■撮影希望日②：${dateTimeText2}
+■撮影希望日③：${dateTimeText3}
+■希望プラン：${planText}
+■撮影内容：
+${content}
+■ご質問、ご相談など：
+${questions}`;
+
+            liff.sendMessages([{ type: 'text', text: messageText }]).then(() => { liff.closeWindow(); }).catch((err) => { alert('送信エラーが発生しました。'); });
+        }
+    </script>
+</body>
+</html>
