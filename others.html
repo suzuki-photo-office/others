@@ -254,16 +254,18 @@
 ■お電話番号：${phone}
 ■郵便番号：${zipcode}
 ■ご住所：${address}
+
 ■撮影希望日①：${dateTimeText1}
 ■撮影希望日②：${dateTimeText2}
 ■撮影希望日③：${dateTimeText3}
 ■希望プラン：${planText}
+
 ■撮影内容：
 ${content}
 ■ご質問、ご相談など：
 ${questions}
 
-上記の内容で送信しました。確定までしばらくお待ちください。`;
+上記の内容で送信しました。日程調整後、担当者からご連絡いたします。`;
 
             liff.sendMessages([{ type: 'text', text: messageText }]).then(() => { liff.closeWindow(); }).catch((err) => { alert('送信エラーが発生しました。'); });
         }
